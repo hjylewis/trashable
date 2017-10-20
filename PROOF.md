@@ -1,6 +1,6 @@
-### Garbage Collection proof
+# Garbage Collection proof
 
-#### Other Solutions
+## Other Solutions
 
 So say you have a class that handles a promise on construction:
 
@@ -78,7 +78,7 @@ Unfortunately, this solutions cancel does nothing to deference the foo object so
 
 Run `node --expose-gc examples/disproof.js` to see for yourself.
 
-#### This solution
+## This solution
 
 This time, let's instead use `makeTrashable()`;
 
