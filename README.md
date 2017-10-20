@@ -39,6 +39,10 @@ It recommends to clean up any callbacks in `componentWillUnmount` so that they w
 
 Unfortunately, this is not that easy if promises are used and the solution it provides in that article actually doesn't solve the garbage collection problem. The cancel method does nothing to deference the handlers and the Element will not be garbage collected (see more in the [PROOF](PROOF.md)).
 
+## Why is this any different than other Cancelable Promise libraries
+
+Unlike other cancelable promise libraries, Trashable actually deferences the promise handlers so that objects that were referenced can be garbaged collected appropriately, freeing up memory.
+
 ## Inspiration
 * @istarkov's [solution](https://github.com/facebook/react/issues/5465#issuecomment-157888325)
 * @benmmurphy's [solution](https://github.com/facebook/react/issues/5465#issuecomment-287161992)
