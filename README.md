@@ -29,7 +29,7 @@ trashablePromise.trash();
 >
 >  — Joe Armstrong
 
-The handlers you pass to promises often reference other objects. These objects can be quick large. This means if the promise is still in flight (not resolved or rejected), these large objects cannot be safely garbage collected even when the promise result has been forgotten and been ignored.
+The handlers you pass to promises often reference other objects. These objects can be quick large. This means if the promise is still in flight (not resolved or rejected), these large objects cannot be safely garbage collected even when the promise result has been forgotten and been ignored. That is why canceling promises so that the objects their handlers reference can be freed is so important.
 
 ### React
 
@@ -38,3 +38,7 @@ In particular, this issue has reared it's head in React with the use of `isMount
 It recommends to clean up any callbacks in `componentWillUnmount` so that they won't call `setState()` after the element has been unmounted and thus continue to reference the Element.
 
 Unfortunately, this is not that easy if promises are used and the solution it provides in that article actually doesn't solve the garbage collection problem. The cancel method does nothing to deference the handlers and the Element will not be garbage collected (see more in the [PROOF](PROOF.md)).
+
+## Inspiration
+* @istarkov's [solution](https://github.com/facebook/react/issues/5465#issuecomment-157888325)
+* @benmmurphy's [solution](https://github.com/facebook/react/issues/5465#issuecomment-287161992)
