@@ -1,0 +1,34 @@
+{
+  "name": "trashable",
+  "version": "1.0.0",
+  "description": "A wrapper to make promises cancellable and garbage collectable",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hjylewis/trashable.git"
+  },
+  "keywords": [
+    "javascript",
+    "promise",
+    "cancellable",
+    "garbage-collection",
+    "garbage",
+    "collection",
+    "cancel",
+    "react",
+    "es6"
+  ],
+  "author": "hjylewis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hjylewis/trashable/issues"
+  },
+  "homepage": "https://github.com/hjylewis/trashable#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "weak": "^1.0.1"
+  }
+}
