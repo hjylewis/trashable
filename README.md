@@ -1,5 +1,7 @@
 # Trashable :put_litter_in_its_place:
-A wrapper to make promises cancellable and garbage collectable
+A wrapper to make promises cancellable and garbage collectable.
+
+See how this relates to React [below](#react) and use [trashable-react](https://github.com/hjylewis/trashable-react) to make your React components garbage collectable.
 
 ## Installation
 
@@ -39,9 +41,25 @@ It recommends to clean up any callbacks in `componentWillUnmount` so that they w
 
 Unfortunately, this is not that easy if promises are used and the solution it provides in that article actually doesn't solve the garbage collection problem. The cancel method does nothing to deference the handlers and the Element will not be garbage collected (see more in the [PROOF](PROOF.md)).
 
+Use [trashable-react](https://github.com/hjylewis/trashable-react) to make your React components garbage collectable.
+
 ## Why is this any different than other Cancelable Promise libraries
 
 Unlike other cancelable promise libraries, Trashable actually deferences the promise handlers so that objects that were referenced can be garbaged collected appropriately, freeing up memory.
+
+## Gotchas
+
+You need to make your promises trashable **before** you add your `then` and `catch` handlers. Otherwise, you will not get the garbage collection benefits.
+
+```
+// Do this
+const trashablePromise = makeTrashable(promise);
+trashablePromise.then(() => {});
+
+// NOT this
+const handledPromise = promise.then(() => {});
+makeTrashable(handledPromise);
+```
 
 ## Inspiration
 * @istarkov's [solution](https://github.com/facebook/react/issues/5465#issuecomment-157888325)
