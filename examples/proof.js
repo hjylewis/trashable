@@ -1,5 +1,5 @@
-var weak = require('weak');
-var makeTrashable = require('../src/index');
+const weak = require('weak');
+const makeTrashable = require('../src/index');
 
 // Class that should be able to be garbaged collected when promise is trashed.
 class Foo {

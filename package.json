@@ -4,7 +4,7 @@
   "description": "A wrapper to make promises cancellable and garbage collectable",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --expose-gc `which jest`"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   "homepage": "https://github.com/hjylewis/trashable#readme",
   "dependencies": {},
   "devDependencies": {
+    "jest": "^21.2.1",
     "weak": "^1.0.1"
   }
 }
