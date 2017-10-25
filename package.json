@@ -4,7 +4,18 @@
   "description": "A wrapper to make promises cancellable and garbage collectable",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "test": "node --expose-gc `which jest`",
+    "validate": "npm run lint && npm test",
+    "precommit": "lint-staged",
+    "prepush": "npm run validate",
+    "prepublish": "npm run validate"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -29,6 +40,11 @@
   "homepage": "https://github.com/hjylewis/trashable#readme",
   "dependencies": {},
   "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-plugin-jest": "^21.2.0",
+    "husky": "^0.14.3",
+    "jest": "^21.2.1",
+    "lint-staged": "^4.3.0",
     "weak": "^1.0.1"
   }
 }
