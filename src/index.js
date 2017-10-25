@@ -1,4 +1,4 @@
-const makeTrashable = (promise) => {
+const makeTrashable = promise => {
   let trash = () => {};
 
   const wrappedPromise = new Promise((resolve, reject) => {
@@ -8,9 +8,10 @@ const makeTrashable = (promise) => {
     };
 
     promise.then(
-      (val) => {
+      val => {
         if (resolve) resolve(val);
-      }, (error) => {
+      },
+      error => {
         if (reject) reject(error);
       }
     );

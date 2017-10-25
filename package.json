@@ -13,7 +13,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
+      "prettier --write",
       "git add"
     ]
   },
@@ -45,6 +45,7 @@
     "husky": "^0.14.3",
     "jest": "^21.2.1",
     "lint-staged": "^4.3.0",
+    "prettier": "1.7.4",
     "weak": "^1.0.1"
   }
 }

@@ -14,8 +14,8 @@ describe('makeTrashable()', () => {
 
   describe('.trash()', () => {
     test('cancels the promise', () => {
-      const timeoutPromise = (delay) => {
-        return new Promise((resolve) => {
+      const timeoutPromise = delay => {
+        return new Promise(resolve => {
           setTimeout(resolve, delay);
         });
       };
@@ -34,17 +34,19 @@ describe('makeTrashable()', () => {
       class Foo {
         constructor(promise) {
           this.exists = true;
-          promise.then(() => {
-            // I am holding onto this reference...
-            this.resolve = true;
-          }).catch(() => {
-            // I am holding onto this reference...
-            this.reject = true;
-          });
+          promise
+            .then(() => {
+              // I am holding onto this reference...
+              this.resolve = true;
+            })
+            .catch(() => {
+              // I am holding onto this reference...
+              this.reject = true;
+            });
         }
       }
 
-      var promise = new Promise((resolve) => {
+      var promise = new Promise(resolve => {
         // Holds onto reference of resolve callback
         setTimeout(resolve, 1000);
       });
