@@ -70,9 +70,11 @@ describe('makeTrashable()', () => {
       foo = null;
 
       expect(ref.exists).toBeTruthy();
-      global.gc();
-      expect(ref.exists).toBeFalsy();
-      expect(mock).toHaveBeenCalled();
+      if (global.gc) {
+        global.gc();
+        expect(ref.exists).toBeFalsy();
+        expect(mock).toHaveBeenCalled();
+      }
     });
   });
 });
