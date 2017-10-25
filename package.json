@@ -4,7 +4,7 @@
   "description": "A wrapper to make promises cancellable and garbage collectable",
   "main": "src/index.js",
   "scripts": {
-    "lint": "eslint src/** __tests__/**",
+    "lint": "eslint .",
     "test": "node --expose-gc `which jest`",
     "validate": "npm run lint && npm test",
     "precommit": "lint-staged",
