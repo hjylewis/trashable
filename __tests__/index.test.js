@@ -18,10 +18,10 @@ describe('makeTrashable()', () => {
         return new Promise((resolve) => {
           setTimeout(resolve, delay);
         });
-      }
+      };
 
       const handler = jest.fn();
-      const trashablePromise = makeTrashable(timeoutPromise(50))
+      const trashablePromise = makeTrashable(timeoutPromise(50));
       trashablePromise.then(handler);
       trashablePromise.trash();
 
@@ -32,19 +32,21 @@ describe('makeTrashable()', () => {
 
     test('makes handler garbage collectable', () => {
       class Foo {
-          constructor(promise) {
-              this.exists = true;
-              promise.then(() => {
-                  console.log("I am holding onto this reference...", this);
-              }).catch(() => {
-                  console.log("I am holding onto this reference...", this);
-              });
-          }
+        constructor(promise) {
+          this.exists = true;
+          promise.then(() => {
+            // I am holding onto this reference...
+            this.resolve = true;
+          }).catch(() => {
+            // I am holding onto this reference...
+            this.reject = true;
+          });
+        }
       }
 
-      var promise = new Promise((resolve, reject) => {
-          // Holds onto reference of resolve callback
-          setTimeout(resolve, 1000);
+      var promise = new Promise((resolve) => {
+        // Holds onto reference of resolve callback
+        setTimeout(resolve, 1000);
       });
 
       var trashablePromise = makeTrashable(promise);
