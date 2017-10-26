@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src/ -d lib/ && flow-copy-source src lib",
-    "lint": "eslint .",
+    "lint": "eslint src/** __tests__/**",
     "test": "node --expose-gc `which jest`",
     "validate": "npm run lint && flow && npm test",
     "precommit": "lint-staged",
