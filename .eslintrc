@@ -1,4 +1,5 @@
 {
+    "parser": "babel-eslint",
     "env": {
         "browser": true,
         "commonjs": true,
@@ -6,9 +7,14 @@
         "node": true,
         "jest/globals": true
     },
-    "extends": ["eslint:recommended", "plugin:jest/recommended"],
+    "extends": [
+      "eslint:recommended",
+      "plugin:jest/recommended",
+      "plugin:flowtype/recommended"
+    ],
     "plugins": [
-      "jest"
+      "jest",
+      "flowtype"
     ],
     "rules": {
         "indent": [

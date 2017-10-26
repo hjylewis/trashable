@@ -1,7 +1,11 @@
-const makeTrashable = promise => {
+// @flow
+
+type TrashablePromise = Promise<*> & { trash: () => void };
+
+const makeTrashable = (promise: Promise<*>): TrashablePromise => {
   let trash = () => {};
 
-  const wrappedPromise = new Promise((resolve, reject) => {
+  const wrappedPromise: any = new Promise((resolve, reject) => {
     trash = () => {
       resolve = null;
       reject = null;
@@ -18,7 +22,7 @@ const makeTrashable = promise => {
   });
 
   wrappedPromise.trash = trash;
-  return wrappedPromise;
+  return (wrappedPromise: TrashablePromise);
 };
 
 module.exports = makeTrashable;
