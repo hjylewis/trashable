@@ -1,6 +1,7 @@
 # Trashable :put_litter_in_its_place:
 [![npm](https://img.shields.io/npm/v/trashable.svg?style=flat-square)](https://www.npmjs.com/package/trashable)
 [![NPM file size](http://img.badgesize.io/https://npmcdn.com/trashable/lib/index.js?style=flat-square)](https://www.npmjs.com/package/trashable)
+[![David](https://david-dm.org/hjylewis/trashable.svg?style=flat-square)](https://www.npmjs.com/package/trashable)
 [![npm](https://img.shields.io/npm/l/trashable.svg?style=flat-square)](https://github.com/hjylewis/trashable/blob/master/LICENSE)
 
 
