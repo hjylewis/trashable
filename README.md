@@ -44,13 +44,13 @@ In particular, this issue has reared it's head in React with the use of `isMount
 
 It recommends to clean up any callbacks in `componentWillUnmount` so that they won't call `setState()` after the element has been unmounted and thus continue to reference the Element.
 
-Unfortunately, this is not that easy if promises are used and the solution it provides in that article actually doesn't solve the garbage collection problem. The cancel method does nothing to deference the handlers and the Element will not be garbage collected (see more in the [PROOF](PROOF.md)).
+Unfortunately, this is not that easy if promises are used and the solution it provides in that article actually doesn't solve the garbage collection problem. The cancel method does nothing to dereference the handlers and the Element will not be garbage collected (see more in the [PROOF](PROOF.md)).
 
 Use [trashable-react](https://github.com/hjylewis/trashable-react) to make your React components garbage collectable.
 
 ## Why is this any different than other Cancelable Promise libraries
 
-Unlike other cancelable promise libraries, Trashable actually deferences the promise handlers so that objects that were referenced can be garbaged collected appropriately, freeing up memory.
+Unlike other cancelable promise libraries, Trashable actually dereferences the promise handlers so that objects that were referenced can be garbaged collected appropriately, freeing up memory.
 
 ## Gotchas
 
