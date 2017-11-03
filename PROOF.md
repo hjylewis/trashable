@@ -57,7 +57,7 @@ Now let's abandon the object and cancel the promise:
 // Cancel/trash promise before resolves
 cancelableButNotTrashed.cancel();
 
-// Deference
+// Dereference
 cancelableButNotTrashed = null;
 promise = null;
 
@@ -66,7 +66,7 @@ var ref = weak(foo, function () {
   console.log("foo was garbaged collected");
 });
 
-// Deference foo
+// Dereference foo
 foo = null;
 
 console.log("Before garbage collection", ref);
@@ -74,7 +74,7 @@ global.gc();
 console.log("After garbage collection", ref);
 ```
 
-Unfortunately, this solutions cancel does nothing to deference the foo object so it cannot be garbage collected.
+Unfortunately, this solutions cancel does nothing to dereference the foo object so it cannot be garbage collected.
 
 Run `node --expose-gc examples/disproof.js` to see for yourself.
 
@@ -91,7 +91,7 @@ var foo = new Foo(trashablePromise);
 // Cancel/trash promise before resolves
 trashablePromise.trash();
 
-// Deference
+// Dereference
 trashablePromise = null;
 promise = null;
 
@@ -100,7 +100,7 @@ var ref = weak(foo, function () {
   console.log("foo was garbaged collected");
 });
 
-// Deference foo
+// Dereference foo
 foo = null;
 
 console.log("Before garbage collection", ref);
@@ -108,6 +108,6 @@ global.gc();
 console.log("After garbage collection", ref);
 ```
 
-Now, the `trash()` method deferences the foo object which is then able to be garbage collected.
+Now, the `trash()` method dereferences the foo object which is then able to be garbage collected.
 
 Run `node --expose-gc examples/proof.js` to see for yourself.

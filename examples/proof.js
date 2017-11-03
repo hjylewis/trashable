@@ -5,15 +5,17 @@ const makeTrashable = require('../src/index');
 // Class that should be able to be garbaged collected when promise is trashed.
 class Foo {
   constructor(promise) {
-    promise.then(() => {
-      console.log('I am holding onto this reference...', this);
-    }).catch(() => {
-      console.log('I am holding onto this reference...', this);
-    });
+    promise
+      .then(() => {
+        console.log('I am holding onto this reference...', this);
+      })
+      .catch(() => {
+        console.log('I am holding onto this reference...', this);
+      });
   }
 }
 
-var promise = new Promise((resolve) => {
+var promise = new Promise(resolve => {
   // Holds onto reference of resolve callback
   setTimeout(resolve, 1000);
 });
@@ -26,16 +28,16 @@ var foo = new Foo(trashablePromise);
 // Cancel/trash promise before resolves
 trashablePromise.trash();
 
-// Deference
+// Dereference
 trashablePromise = null;
 promise = null;
 
 // Track foo
-var ref = weak(foo, function () {
+var ref = weak(foo, function() {
   console.log('foo was garbaged collected');
 });
 
-// Deference foo
+// Dereference foo
 foo = null;
 
 console.log('Before garbage collection', ref);

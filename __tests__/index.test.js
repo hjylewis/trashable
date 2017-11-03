@@ -59,7 +59,7 @@ describe('makeTrashable()', () => {
       // Cancel/trash promise before resolves
       trashablePromise.trash();
 
-      // Deference
+      // Dereference
       trashablePromise = null;
       promise = null;
 
@@ -68,7 +68,7 @@ describe('makeTrashable()', () => {
       // Track foo
       var ref = weak(foo, mock);
 
-      // Deference foo
+      // Dereference foo
       foo = null;
 
       expect(ref.exists).toBeTruthy();
