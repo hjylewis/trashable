@@ -1,6 +1,20 @@
 const weak = require('weak');
 const makeTrashable = require('../src/index');
 
+if (global.gc) {
+  test.requireGC = test;
+} else {
+  test.requireGC = (...args) => {
+    console.error(
+      'Make sure to run tests with garbage collection exposed (`node --expose-gc`)\n' +
+        'or else important tests will be skipped. Running `npm test` includes\n' +
+        'all the flags you need.'
+    );
+
+    test.skip(...args); // eslint-disable-line jest/no-disabled-tests
+  };
+}
+
 describe('makeTrashable()', () => {
   test('still resolves promise', () => {
     const value = 'this is a value';
@@ -30,7 +44,7 @@ describe('makeTrashable()', () => {
       });
     });
 
-    test('makes handler garbage collectable', () => {
+    test.requireGC('makes handler garbage collectable', () => {
       class Foo {
         constructor(promise) {
           this.exists = true;
@@ -72,11 +86,9 @@ describe('makeTrashable()', () => {
       foo = null;
 
       expect(ref.exists).toBeTruthy();
-      if (global.gc) {
-        global.gc();
-        expect(ref.exists).toBeFalsy();
-        expect(mock).toHaveBeenCalled();
-      }
+      global.gc();
+      expect(ref.exists).toBeFalsy();
+      expect(mock).toHaveBeenCalled();
     });
   });
 });
