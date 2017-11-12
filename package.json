@@ -1,6 +1,6 @@
 {
   "name": "trashable",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A wrapper to make promises cancellable and garbage collectable",
   "main": "lib/index.js",
   "scripts": {
