@@ -1,6 +1,6 @@
 // @flow
 
-type TrashablePromise = Promise<*> & { trash: () => void };
+export type TrashablePromise = Promise<*> & { trash: () => void };
 
 const makeTrashable = (promise: Promise<*>): TrashablePromise => {
   let trash = () => {};
