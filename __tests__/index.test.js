@@ -16,12 +16,12 @@ if (global.gc) {
 }
 
 describe('makeTrashable()', () => {
-  test('still resolves promise', () => {
+  test.skip('still resolves promise', () => {
     const value = 'this is a value';
     return expect(makeTrashable(Promise.resolve(value))).resolves.toBe(value);
   });
 
-  test('still rejects promise', () => {
+  test.skip('still rejects promise', () => {
     const error = new Error('this is an error');
     return expect(makeTrashable(Promise.reject(error))).rejects.toBe(error);
   });
@@ -41,6 +41,56 @@ describe('makeTrashable()', () => {
 
       return timeoutPromise(100).then(() => {
         expect(handler).not.toHaveBeenCalled();
+      });
+    });
+
+    test('doesnt call handler if already trashed', () => {
+      const timeoutPromise = delay => {
+        return new Promise(resolve => {
+          setTimeout(resolve, delay);
+        });
+      };
+
+      const handler = jest.fn();
+      const trashablePromise = makeTrashable(timeoutPromise(50));
+      trashablePromise.trash();
+      trashablePromise.then(handler);
+
+      return timeoutPromise(100).then(() => {
+        expect(handler).not.toHaveBeenCalled();
+      });
+    });
+
+    test('cancels the promise without a race condition', () => {
+      const timeoutPromise = delay => {
+        return new Promise(resolve => {
+          setTimeout(resolve, delay);
+        });
+      };
+      const original = timeoutPromise(100);
+      const trashablePromise = makeTrashable(original);
+      let trashed = false;
+      let last = false;
+
+      original.then(() => {
+        expect(last).toBe(false); // (A)
+        trashed = true;
+        trashablePromise.trash();
+      });
+
+      trashablePromise.then(() => {
+        last = true; // (B)
+      });
+
+      return timeoutPromise(200).then(() => {
+        expect(trashed).toBe(true); // (C)
+        // Right now, this 'expect' fails. This means that the `then` on
+        // trashablePromise, (B), executed. However:
+        // - 'expect' (C) does not fail, which means that the promise actually
+        //   got trashed.
+        // - Thus 'expect' (A) executed, and it did not fail, which means that
+        //   we called trash() *before* (B) executed.
+        expect(last).toBe(false);
       });
     });
 

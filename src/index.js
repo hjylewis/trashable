@@ -1,28 +1,48 @@
-// @flow
+function makeTrashable(promise) {
+  promise = Promise.resolve(promise);
 
-export type TrashablePromise<T> = Promise<T> & { trash: () => void };
+  let trashed = false;
+  let thenHandler;
+  let catchHandler;
+  let resolve;
 
-function makeTrashable<T>(promise: Promise<T>): TrashablePromise<T> {
-  let trash = () => {};
-
-  const wrappedPromise: any = new Promise((resolve, reject) => {
-    trash = () => {
-      resolve = null;
-      reject = null;
-    };
-
-    promise.then(
-      val => {
-        if (resolve) resolve(val);
-      },
-      error => {
-        if (reject) reject(error);
+  promise.then(
+    val => {
+      if (thenHandler && resolve) {
+        resolve(makeTrashable(thenHandler(val)));
       }
-    );
-  });
+    },
+    error => {
+      if (catchHandler && resolve) {
+        resolve(makeTrashable(catchHandler(error)));
+      }
+    }
+  );
 
-  wrappedPromise.trash = trash;
-  return (wrappedPromise: TrashablePromise<T>);
+  const wrappedPromise = {
+    then(handler) {
+      if (trashed) return new Promise(() => {});
+      thenHandler = handler;
+      return new Promise(_resolve => {
+        resolve = _resolve;
+      });
+    },
+    catch(handler) {
+      if (trashed) return new Promise(() => {});
+      catchHandler = handler;
+      return new Promise(_resolve => {
+        resolve = _resolve;
+      });
+    },
+    trash() {
+      trashed = true;
+      thenHandler = null;
+      catchHandler = null;
+      resolve = null;
+    },
+  };
+
+  return wrappedPromise;
 }
 
 module.exports = makeTrashable;
