@@ -1,6 +1,11 @@
 // @flow
 
-export type TrashablePromise<T> = Promise<T> & { trash: () => void };
+export type TrashablePromise<T> = Promise<T> & {
+  then: <S: T>(T) => S,
+  catch: any => any,
+  finally: () => void,
+  trash: () => void,
+};
 
 function makeTrashable<T>(promise: Promise<T>): TrashablePromise<T> {
   let trash = () => {};
