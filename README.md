@@ -40,7 +40,7 @@ trashablePromise.trash();
 > — Joe Armstrong
 
 The handlers you pass to promises often reference other objects. These objects
-can be quick large. This means if the promise is still in flight (not resolved
+can be quite large. This means if the promise is still in flight (not resolved
 or rejected), these large objects cannot be safely garbage collected even when
 the promise result has been forgotten and been ignored. That is why canceling
 promises so that the objects their handlers reference can be freed is so
