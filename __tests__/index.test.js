@@ -44,6 +44,36 @@ describe('makeTrashable()', () => {
       });
     });
 
+    test('cancels the promise without a race condition', () => {
+      const timeoutPromise = delay => {
+        return new Promise(resolve => {
+          setTimeout(resolve, delay);
+        });
+      };
+      const original = timeoutPromise(2);
+      const trashablePromise = makeTrashable(original);
+      let trashed = false;
+      let last = false;
+      original.then(() => {
+        expect(last).toBe(false); // (A)
+        trashed = true;
+        trashablePromise.trash();
+      });
+      trashablePromise.then(() => {
+        last = true; // (B)
+      });
+      return timeoutPromise(100).then(() => {
+        expect(trashed).toBe(true); // (C)
+        // Right now, this 'expect' fails. This means that the `then` on
+        // trashablePromise, (B), executed. However:
+        // - 'expect' (C) does not fail, which means that the promise actually
+        //   got trashed.
+        // - Thus 'expect' (A) executed, and it did not fail, which means that
+        //   we called trash() *before* (B) executed.
+        expect(last).toBe(false);
+      });
+    });
+
     test.requireGC('makes handler garbage collectable', () => {
       class Foo {
         constructor(promise) {
